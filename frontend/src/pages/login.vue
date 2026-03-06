@@ -37,7 +37,6 @@ let error = ref('')
 
 function handleLogin() {
   error.value = ''
-  console.log(email.value, password.value)
   if (!email.value || !password.value) {
     error.value = 'Email and password is required'
     return
