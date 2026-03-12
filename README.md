@@ -10,7 +10,7 @@ Through this project, we aim to combine practical web development with strong se
 
 ## Stack
 
-- **Backend:** FastAPI  
+- **Backend:** Node.JS
 - **Frontend:** Vue.js  
 - **Styling:** Tailwind CSS  
 - **Database:** MySQL
