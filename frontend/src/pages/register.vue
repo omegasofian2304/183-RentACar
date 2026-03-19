@@ -65,7 +65,13 @@
 
 <script setup>
 import { ref } from 'vue'
+const phoneRegex = /^\+?[\d\s\-]{7,15}$/
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// Source Claude
+// Prompt : give me a regex check for at least 12 characters, one uppercase, one number and one special character
+const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/
+
 const firstname = ref('')
 const lastname = ref('')
 const email = ref('')
@@ -77,16 +83,33 @@ let error = ref('')
 
 function handleRegister() {
   error.value = ''
-  console.log(firstname.value, lastname.value, email.value, password.value, birthdate.value, phone.value, address.value)
-  if (!firstname.value ||!lastname.value || !email.value || !password.value || birthdate.value || phone.value || address.value) {
+  if (!firstname.value ||!lastname.value || !email.value || !password.value || !birthdate.value || !phone.value || !address.value) {
     error.value = 'Tout les champs doivent être remplis'
     return
   }
+
   if (!emailRegex.test(email.value)) {
     error.value = 'Email invalide !'
+    return
   }
+
+  if (!phoneRegex.test(phone.value)) {
+    error.value = 'Numéro de téléphone invalide !'
+    return
+  }
+
+  if (!passwordRegex.test(password.value)) {
+    error.value = 'Le mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial'
+    return
+  }
+
+  firstname.value = ''
+  lastname.value = ''
   email.value = ''
   password.value = ''
+  phone.value = ''
+  address.value = ''
+  birthdate.value = ''
 }
 /*
 await fetch('http://localhost:3000/api/login', {
