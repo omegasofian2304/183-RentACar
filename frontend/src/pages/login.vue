@@ -43,10 +43,12 @@ function handleLogin() {
   }
   if (!emailRegex.test(email.value)) {
     error.value = 'Email invalide !'
+    return
   }
   email.value = ''
   password.value = ''
 }
+/*
 await fetch('http://localhost:3000/api/login', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
@@ -55,4 +57,5 @@ await fetch('http://localhost:3000/api/login', {
     password: password.value
   })
 })
+ */
 </script>

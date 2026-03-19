@@ -8,9 +8,9 @@ This document defines the technical and organizational conventions of the projec
 
 ### Format
 
-* `main` → stable branch
-* `develop` → integration branch
-* `feature/<feature-name>` → **new features / new additions**
+* `main` -> stable branch
+* `develop` -> integration branch
+* `feature/<feature-name>` -> **new features / new additions**
 
 ### Examples
 
@@ -32,14 +32,14 @@ This project follows the **Conventional Commits** specification.
 
 ### Allowed types
 
-* `feat` → new feature
-* `fix` → bug fix
-* `refactor` → code refactoring
-* `perf` → performance improvement
-* `docs` → documentation
-* `style` → formatting/style only (no logic impact)
-* `test` → tests
-* `chore` → technical tasks
+* `feat` -> new feature
+* `fix` -> bug fix
+* `refactor` -> code refactoring
+* `perf` -> performance improvement
+* `docs` -> documentation
+* `style` -> formatting/style only (no logic impact)
+* `test` -> tests
+* `chore` -> technical tasks
 
 ### Examples
 
@@ -73,15 +73,15 @@ Goals:
 
 ## Backend Conventions
 
-### Python / FastAPI
+### Node.js / Express
 
 #### Files
 
-* `snake_case.py`
+* `camelCase.js`
 
 #### Functions
 
-* `snake_case()`
+* `camelCase()`
 
 #### Classes
 
@@ -89,17 +89,20 @@ Goals:
 
 #### Variables
 
-* `snake_case`
+* `camelCase`
 
 #### Header
-"""  
-File: <filename>  
-Project: <project-name>  
-Description: <short description of the module purpose>  
-Author: Sofian Hussein  
-Created: <YYYY-MM-DD>  
-Last modified: <YYYY-MM-DD>  
-"""
+
+```
+/*
+File: <filename>
+Project: <project-name>
+Description: <short description of the module purpose>
+Author: Sofian Hussein
+Created: <YYYY-MM-DD>
+Last modified: <YYYY-MM-DD>
+*/
+```
 
 #### Endpoints
 
@@ -111,7 +114,7 @@ Examples:
 
 * `GET /users`
 * `POST /orders`
-* `GET /orders/{id}`
+* `GET /orders/:id`
 
 ---
 
@@ -137,13 +140,16 @@ Examples:
 * `camelCase`
 
 #### Header
-/*  
-File: <filename>  
-Project: <project-name>  
-Description: <short description of the file responsibility>  
-Author: Sofian Hussein  
-Date of creation: <DD-MM-YYYY>  
+
+```
+/*
+File: <filename>
+Project: <project-name>
+Description: <short description of the file responsibility>
+Author: Sofian Hussein
+Date of creation: <DD-MM-YYYY>
 */
+```
 
 ---
 
@@ -153,28 +159,29 @@ Date of creation: <DD-MM-YYYY>
 
 When using an AI tool to generate text, code, or other content, indicate it in the following format:
 
-**Source AI:**  
+**Source AI:**
 Source AI-Name:
 
-**Prompt:**  
+**Prompt:**
 Prompt given to the AI
 
-**Example:**  
-Source ChatGPT:  
-Prompt: Generate a Python function to calculate factorial recursively
+**Example:**
+Source ChatGPT:
+Prompt: Generate a JavaScript function to calculate factorial recursively
 
 ### Documentation or External Sources
 
 For references to official documentation or external websites, use this format:
 
-**Source:**  
+**Source:**
 URL of the document or website
 
-**Example:**  
+**Example:**
 Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 
-**Where:**  
+**Where:**
 The sources must be indicated in the code just before using it.
+
 ---
 
 Living document - any change must be validated by the team.
