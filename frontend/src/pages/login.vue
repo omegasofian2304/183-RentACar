@@ -20,9 +20,11 @@
         />
       </div>
 
-      <button @click="handleLogin" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-lg transition-colors">
+      <button @click.prevent="handleLogin" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-lg transition-colors">
         Se connecter
       </button>
+
+      <router-link to="/register" class="text-blue-500 text-center">Pas de compte?</router-link>
       <p class="text-red-600">{{error}}</p>
     </div>
   </div>
@@ -30,32 +32,48 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/authStore'
+
+const router = useRouter()
+const authStore = useAuthStore()
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const email = ref('')
 const password = ref('')
 let error = ref('')
 
-function handleLogin() {
+async function handleLogin() {
   error.value = ''
   if (!email.value || !password.value) {
-    error.value = 'Email and password is required'
+    error.value = 'Email et mot de passe requis'
     return
   }
   if (!emailRegex.test(email.value)) {
     error.value = 'Email invalide !'
     return
   }
+
+  const res = await fetch('http://localhost:3000/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  })
+
+  const data = await res.json()
+
+  if (!res.ok) {
+    error.value = data.error
+    return
+  }
+
+  authStore.setAccessToken(data.accessToken)
+
   email.value = ''
   password.value = ''
+  await router.push('/home')
 }
-/*
-await fetch('http://localhost:3000/api/login', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    email: email.value,
-    password: password.value
-  })
-})
- */
 </script>

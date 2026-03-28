@@ -8,32 +8,32 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema rentacar
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema rentacar
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `rentacar` DEFAULT CHARACTER SET utf8 ;
+USE `rentacar` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`categories`
+-- Table `rentacar`.`categories`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`categories` (
-                                                   `id` INT NOT NULL AUTO_INCREMENT,
-                                                   `name` VARCHAR(30) NOT NULL,
+CREATE TABLE IF NOT EXISTS `rentacar`.`categories` (
+                                                       `id` INT NOT NULL AUTO_INCREMENT,
+                                                       `name` VARCHAR(30) NOT NULL,
     `description` VARCHAR(100) NOT NULL,
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`agencies`
+-- Table `rentacar`.`agencies`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`agencies` (
-                                                 `id` INT NOT NULL AUTO_INCREMENT,
-                                                 `name` VARCHAR(30) NOT NULL,
+CREATE TABLE IF NOT EXISTS `rentacar`.`agencies` (
+                                                     `id` INT NOT NULL AUTO_INCREMENT,
+                                                     `name` VARCHAR(30) NOT NULL,
     `address` VARCHAR(30) NOT NULL,
     `city` VARCHAR(30) NOT NULL,
     `phone` VARCHAR(30) NOT NULL,
@@ -44,11 +44,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`agencies` (
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`cars`
+-- Table `rentacar`.`cars`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`cars` (
-                                             `id` INT NOT NULL AUTO_INCREMENT,
-                                             `brand` VARCHAR(50) NOT NULL,
+CREATE TABLE IF NOT EXISTS `rentacar`.`cars` (
+                                                 `id` INT NOT NULL AUTO_INCREMENT,
+                                                 `brand` VARCHAR(50) NOT NULL,
     `model` VARCHAR(50) NOT NULL,
     `year` YEAR NOT NULL,
     `license_plate` VARCHAR(30) NOT NULL,
@@ -65,23 +65,23 @@ CREATE TABLE IF NOT EXISTS `mydb`.`cars` (
     INDEX `fk_Cars_Agencies1_idx` (`agencies_Id` ASC) VISIBLE,
     CONSTRAINT `fk_Cars_Categories1`
     FOREIGN KEY (`categories_Id`)
-    REFERENCES `mydb`.`categories` (`id`)
+    REFERENCES `rentacar`.`categories` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     CONSTRAINT `fk_Cars_Agencies1`
     FOREIGN KEY (`agencies_Id`)
-    REFERENCES `mydb`.`agencies` (`id`)
+    REFERENCES `rentacar`.`agencies` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`customers`
+-- Table `rentacar`.`customers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`customers` (
-                                                  `id` INT NOT NULL AUTO_INCREMENT,
-                                                  `first_name` VARCHAR(30) NOT NULL,
+CREATE TABLE IF NOT EXISTS `rentacar`.`customers` (
+                                                      `id` INT NOT NULL AUTO_INCREMENT,
+                                                      `first_name` VARCHAR(30) NOT NULL,
     `last_name` VARCHAR(30) NOT NULL,
     `password` VARCHAR(254) NOT NULL,
     `birth_date` DATE NOT NULL,
@@ -94,13 +94,13 @@ CREATE TABLE IF NOT EXISTS `mydb`.`customers` (
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`payments`
+-- Table `rentacar`.`payments`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`payments` (
-                                                 `id` INT NOT NULL AUTO_INCREMENT,
-                                                 `amount` FLOAT NOT NULL,
-                                                 `payment_date` DATE NOT NULL,
-                                                 `payment_method` VARCHAR(30) NOT NULL,
+CREATE TABLE IF NOT EXISTS `rentacar`.`payments` (
+                                                     `id` INT NOT NULL AUTO_INCREMENT,
+                                                     `amount` FLOAT NOT NULL,
+                                                     `payment_date` DATE NOT NULL,
+                                                     `payment_method` VARCHAR(30) NOT NULL,
     `payment_status` VARCHAR(30) NOT NULL,
     `agencies_Id` INT NOT NULL,
     `customers_Id` INT NOT NULL,
@@ -109,26 +109,26 @@ CREATE TABLE IF NOT EXISTS `mydb`.`payments` (
     INDEX `fk_Payments_Customers1_idx` (`customers_Id` ASC) VISIBLE,
     CONSTRAINT `fk_Payments_Agencies1`
     FOREIGN KEY (`agencies_Id`)
-    REFERENCES `mydb`.`agencies` (`id`)
+    REFERENCES `rentacar`.`agencies` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     CONSTRAINT `fk_Payments_Customers1`
     FOREIGN KEY (`customers_Id`)
-    REFERENCES `mydb`.`customers` (`id`)
+    REFERENCES `rentacar`.`customers` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`rentals`
+-- Table `rentacar`.`rentals`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`rentals` (
-                                                `id` INT NOT NULL AUTO_INCREMENT,
-                                                `start_date` DATE NOT NULL,
-                                                `end_date` DATE NOT NULL,
-                                                `total_price` FLOAT NOT NULL,
-                                                `rental_status` VARCHAR(30) NOT NULL,
+CREATE TABLE IF NOT EXISTS `rentacar`.`rentals` (
+                                                    `id` INT NOT NULL AUTO_INCREMENT,
+                                                    `start_date` DATE NOT NULL,
+                                                    `end_date` DATE NOT NULL,
+                                                    `total_price` FLOAT NOT NULL,
+                                                    `rental_status` VARCHAR(30) NOT NULL,
     `cars_Id` INT NOT NULL,
     `customers_Id` INT NOT NULL,
     `payments_Id` INT NOT NULL,
@@ -138,28 +138,28 @@ CREATE TABLE IF NOT EXISTS `mydb`.`rentals` (
     INDEX `fk_Rentals_Payments1_idx` (`payments_Id` ASC) VISIBLE,
     CONSTRAINT `fk_Rentals_Cars1`
     FOREIGN KEY (`cars_Id`)
-    REFERENCES `mydb`.`cars` (`id`)
+    REFERENCES `rentacar`.`cars` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     CONSTRAINT `fk_Rentals_Customers1`
     FOREIGN KEY (`customers_Id`)
-    REFERENCES `mydb`.`customers` (`id`)
+    REFERENCES `rentacar`.`customers` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     CONSTRAINT `fk_Rentals_Payments1`
     FOREIGN KEY (`payments_Id`)
-    REFERENCES `mydb`.`payments` (`id`)
+    REFERENCES `rentacar`.`payments` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`refresh_tokens`
+-- Table `rentacar`.`refresh_tokens`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`refresh_tokens` (
-                                                       `id` INT NOT NULL AUTO_INCREMENT,
-                                                       `token` VARCHAR(512) NOT NULL,
+CREATE TABLE IF NOT EXISTS `rentacar`.`refresh_tokens` (
+                                                           `id` INT NOT NULL AUTO_INCREMENT,
+                                                           `token` VARCHAR(512) NOT NULL,
     `expires_at` DATETIME NOT NULL,
     `created_at` DATETIME NOT NULL,
     `customers_id` INT NOT NULL,
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`refresh_tokens` (
     INDEX `fk_refresh_tokens_customers1_idx` (`customers_id` ASC) VISIBLE,
     CONSTRAINT `fk_refresh_tokens_customers1`
     FOREIGN KEY (`customers_id`)
-    REFERENCES `mydb`.`customers` (`id`)
+    REFERENCES `rentacar`.`customers` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
     ENGINE = InnoDB;

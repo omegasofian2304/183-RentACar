@@ -54,10 +54,10 @@
         />
       </div>
 
-      <button @click="handleRegister" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-lg transition-colors">
+      <button @click.prevent="handleRegister" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-lg transition-colors">
         S'inscrire
       </button>
-      <router-link to="/Login" class="text-blue-500 text-center">Déjà un compte?</router-link>
+      <router-link to="/login" class="text-blue-500 text-center">Déjà un compte?</router-link>
       <p class="text-red-600">{{error}}</p>
     </div>
   </div>
@@ -65,8 +65,12 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 const phoneRegex = /^\+?[\d\s\-]{7,15}$/
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const router = useRouter()
 
 // Source Claude
 // Prompt : give me a regex check for at least 12 characters, one uppercase, one number and one special character
@@ -81,9 +85,9 @@ const phone = ref('')
 const address = ref('')
 let error = ref('')
 
-function handleRegister() {
+async function handleRegister() {
   error.value = ''
-  if (!firstname.value ||!lastname.value || !email.value || !password.value || !birthdate.value || !phone.value || !address.value) {
+  if (!firstname.value || !lastname.value || !email.value || !password.value || !birthdate.value || !phone.value || !address.value) {
     error.value = 'Tout les champs doivent être remplis'
     return
   }
@@ -103,6 +107,27 @@ function handleRegister() {
     return
   }
 
+  const res = await fetch('http://localhost:3000/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstname: firstname.value,
+      lastname: lastname.value,
+      email: email.value,
+      password: password.value,
+      birthdate: birthdate.value,
+      phone: phone.value,
+      address: address.value
+    })
+  })
+
+  const data = await res.json()
+
+  if (!res.ok) {
+    error.value = data.error
+    return
+  }
+
   firstname.value = ''
   lastname.value = ''
   email.value = ''
@@ -110,15 +135,6 @@ function handleRegister() {
   phone.value = ''
   address.value = ''
   birthdate.value = ''
+  await router.replace('/login')
 }
-/*
-await fetch('http://localhost:3000/api/login', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    email: email.value,
-    password: password.value
-  })
-})
- */
 </script>
