@@ -11,6 +11,9 @@
             <button @click="handleLogout" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
               Logout
             </button>
+            <button @click="goToMyReservations" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+              Mes réservations
+            </button>
           </template>
           <template v-else>
             <button @click="goToLogin" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
@@ -34,7 +37,7 @@
           Une plateforme intuitive pour louer votre future voiture.
         </p>
 
-        <button v-if="authStore.accessToken" class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition-colors">
+        <button v-if="authStore.accessToken" @click="goToReservation" class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition-colors">
           Réserver
         </button>
         <button v-else @click="goToLogin" class="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition-colors">
@@ -89,6 +92,14 @@ function goToLogin() {
 function goToRegister() {
 
   router.replace('/register')
+}
+
+function goToReservation() {
+  router.replace('/reservation')
+}
+
+function goToMyReservations() {
+  router.replace('/myReservations')
 }
 
 async function handleLogout() {
