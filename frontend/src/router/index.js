@@ -2,13 +2,18 @@ import {createRouter, createWebHistory} from 'vue-router';
 import Login from '../pages/login.vue';
 import Register from '../pages/register.vue';
 import Home from '../pages/home.vue';
+import Reservation from '../pages/reservation.vue'
+import myReservations from '../pages/myReservations.vue'
+
 import { useAuthStore } from '../stores/authStore.js';
 
 
 const routes = [
     {path: '/login', component: Login},
     {path: '/register', component: Register},
-    {path: '/home', component: Home}
+    {path: '/home', component: Home},
+    { path: '/reservation', component: Reservation, meta: { requiresAuth: true } },
+    { path: '/myReservations', component: myReservations, meta: { requiresAuth: true } }
 ];
 
 const router = createRouter({
@@ -25,7 +30,6 @@ router.beforeEach(async (to) => {
             method: 'POST',
             credentials: 'include'
         })
-
         if (res.ok) {
             const data = await res.json()
             authStore.setAccessToken(data.accessToken)
@@ -33,15 +37,20 @@ router.beforeEach(async (to) => {
         }
     }
 
-    if (to.path === '/home') {
-        const res = await fetch('http://localhost:3000/auth/refresh', {
-            method: 'POST',
-            credentials: 'include'
-        })
-
-        if (res.ok) {
-            const data = await res.json()
-            authStore.setAccessToken(data.accessToken)
+    if (to.path === '/home' || to.meta.requiresAuth) {
+        try {
+            const res = await fetch('http://localhost:3000/auth/refresh', {
+                method: 'POST',
+                credentials: 'include'
+            })
+            if (res.ok) {
+                const data = await res.json()
+                authStore.setAccessToken(data.accessToken)
+            } else if (to.meta.requiresAuth) {
+                return '/login'
+            }
+        } catch {
+            if (to.meta.requiresAuth) return '/login'
         }
     }
 })

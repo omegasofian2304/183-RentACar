@@ -11,6 +11,9 @@ import cors from 'cors';
 import authRouter from "./routes/authRoutes.js";
 import cookieParser from 'cookie-parser'
 import {deleteExpiredRefreshTokensRepository} from "./repositories/authRepository.js";
+import carRouter from "./routes/carRoutes.js";
+import rentalRouter from "./routes/rentalRoutes.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 const app = express();
 
@@ -30,6 +33,12 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 app.use(cookieParser())
 
 app.use("/auth", authRouter);
+
+app.use("/cars", carRouter);
+
+app.use("/rentals", rentalRouter);
+
+app.use(errorMiddleware)
 
 // delete the expired refresh tokens every 24h
 setInterval(async () => {
