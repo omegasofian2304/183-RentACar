@@ -32,11 +32,11 @@ export async function loginCustomerService(email, password) {
     const accessToken = jwt.sign(
         { id: customer.id, role: customer.role },
         process.env.JWT_ACCESS,
-        { expiresIn: '8h' }
+        { expiresIn: '15m' }
     )
 
     const refreshToken = jwt.sign(
-        { id: customer.id },
+        { id: customer.id, role: customer.role },
         process.env.JWT_REFRESH,
         { expiresIn: '7d' }
     )
