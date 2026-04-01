@@ -4,8 +4,9 @@ import Register from '../pages/register.vue';
 import Home from '../pages/home.vue';
 import Reservation from '../pages/reservation.vue'
 import myReservations from '../pages/myReservations.vue'
-
+import AdminOrders from "../pages/adminOrders.vue";
 import { useAuthStore } from '../stores/authStore.js';
+
 
 
 const routes = [
@@ -13,7 +14,8 @@ const routes = [
     {path: '/register', component: Register},
     {path: '/home', component: Home},
     { path: '/reservation', component: Reservation, meta: { requiresAuth: true } },
-    { path: '/myReservations', component: myReservations, meta: { requiresAuth: true } }
+    { path: '/myReservations', component: myReservations, meta: { requiresAuth: true } },
+    { path: '/admin/reservations', component: AdminOrders, meta: { requiresAuth: true, requiresAdmin: true } }
 ];
 
 const router = createRouter({
@@ -52,6 +54,14 @@ router.beforeEach(async (to) => {
         } catch {
             if (to.meta.requiresAuth) return '/login'
         }
+    }
+
+    if (to.meta.requiresAdmin && authStore.role !== 'admin') {
+        return '/home'
+    }
+
+    if (to.path === '/') {
+        return '/home'
     }
 })
 

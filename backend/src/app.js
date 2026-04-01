@@ -14,6 +14,7 @@ import {deleteExpiredRefreshTokensRepository} from "./repositories/authRepositor
 import carRouter from "./routes/carRoutes.js";
 import rentalRouter from "./routes/rentalRoutes.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
+import adminRouter from "./routes/adminRoutes.js";
 
 const app = express();
 
@@ -37,6 +38,8 @@ app.use("/auth", authRouter);
 app.use("/cars", carRouter);
 
 app.use("/rentals", rentalRouter);
+
+app.use("/admin", adminRouter);
 
 app.use(errorMiddleware)
 
