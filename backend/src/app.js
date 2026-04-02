@@ -20,12 +20,13 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-app.use(helmet());
-app.use(express.json());
 app.use(cors({
     origin: process.env.ALLOWED_ORIGIN,
-    credentials: true
+    credentials: true // Allow cookies and auth headers on cross-origin requests
 }));
+
+app.use(helmet());
+app.use(express.json());
 
 // Max 100 requests every 15 minutes
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
